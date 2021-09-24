@@ -10,8 +10,8 @@ if (localStorage.getItem('tasks') === null) {
 
 let tasksObj = JSON.parse(localStorage.getItem('tasks'))
 createExistedTasks()
-const divSections = document.getElementById('sections')
-divSections.addEventListener('click', addTask)
+
+sections.addEventListener('click', addTask)
 
 function addTask(event) {
   event.preventDefault()
@@ -23,13 +23,7 @@ function addTask(event) {
     const addDone = document.getElementById('add-done-task').value
 
     //create the list for the task
-    let li = createElement(
-      'li',
-      [],
-      ['task'],
-      { tabindex: '0' },
-      { keydown: moveTask }
-    )
+    let li = createElement('li', [], ['task'], { tabindex: '0' })
 
     //chooses the case by the button that clicked
     switch (target.id) {
@@ -38,7 +32,7 @@ function addTask(event) {
         if (addToDo === '') alert('add some content please')
         //if input empty an alert pop up
         else {
-          ulTodo.append(li)
+          todo.append(li)
           document.getElementById('add-to-do-task').value = ''
           tasksObj.todo.push(addToDo)
         } //add the text to the list
@@ -49,7 +43,7 @@ function addTask(event) {
         if (addProgress === '') alert('add some content please')
         //if input empty an alert pop up
         else {
-          ulProgress.append(li)
+          section2.children[2].append(li)
           document.getElementById('add-in-progress-task').value = ''
           tasksObj['in-progress'].push(addProgress)
         } //add the text to the list
@@ -60,7 +54,7 @@ function addTask(event) {
         if (addDone === '') alert('add some content please')
         //if input empty an alert pop up
         else {
-          ulDone.append(li)
+          done.append(li)
           document.getElementById('add-done-task').value = ''
           tasksObj.done.push(addDone)
         } //add the text to the list
@@ -70,37 +64,23 @@ function addTask(event) {
   }
 }
 
-divSections.addEventListener('dblclick', changeTask)
+sections.addEventListener('dblclick', changeTask)
 
 function changeTask(e) {
   e.preventDefault()
   const target = e.target
-  if (target.className === 'task') {
-    let newInput = document.createElement('input')
-    newInput.setAttribute('id', 'change-task-input')
-    const oldcontent = target.textContent
-    newInput.value = target.textContent
-    target.innerText = ''
-    let listTask = []
-    target.append(newInput)
-    newInput.focus()
-    newInput.addEventListener('blur', () => {
-      target.innerHTML = newInput.value
-      switch (target.parentElement.id) {
-        case 'ulTodo':
-          listTask = tasksObj.todo
-          break
-        case 'ulProgress':
-          listTask = tasksObj['in-progress']
-          break
-        case 'ulDone':
-          listTask = tasksObj.done
-          break
-      }
-      listTask[listTask.findIndex((a) => a === oldcontent)] = newInput.value
-      localStorage.setItem('tasks', JSON.stringify(tasksObj))
-    })
-  }
+  target.focus()
+  originTask = target.textContent
+  const saveKey = tasksObj[target.closest('ul').id]
+  console.log(target)
+  oldText = target.textContent
+  target.contentEditable = 'true'
+  target.addEventListener('blur', () => {
+    let newText = target.textContent
+    if (newText === '') newText = oldText //bug fixed - when we dblclick and then remove the content and then lose focus so the old content came up and the task wouldn't stay empty
+    saveKey[saveKey.findIndex((a) => a === oldText)] = newText
+    localStorage.setItem('tasks', JSON.stringify(tasksObj))
+  })
 }
 
 /**
@@ -146,94 +126,85 @@ function createElement(
 function createExistedTasks() {
   //creates tasks to the page, meant for the case that we refresh the page to save all the existed tasks
   for (let task of tasksObj.todo) {
-    let li = createElement(
-      'li',
-      [],
-      ['task'],
-      { tabindex: '0' },
-      { keydown: moveTask }
-    )
+    let li = createElement('li', [], ['task'], { tabindex: '0' })
     li.innerHTML = task
-    ulTodo.append(li)
+    todo.append(li)
   }
   for (let task of tasksObj['in-progress']) {
-    let li = createElement(
-      'li',
-      [],
-      ['task'],
-      { tabindex: '0' },
-      { keydown: moveTask }
-    )
+    let li = createElement('li', [], ['task'], { tabindex: '0' })
     li.innerHTML = task
-    ulProgress.append(li)
+    section2.children[2].append(li)
   }
   for (let task of tasksObj.done) {
-    let li = createElement(
-      'li',
-      [],
-      ['task'],
-      { tabindex: '0' },
-      { keydown: moveTask }
-    )
+    let li = createElement('li', [], ['task'], { tabindex: '0' })
     li.innerHTML = task
-    ulDone.append(li)
+    done.append(li)
   }
 }
 
+sections.addEventListener('keydown', moveTask)
 function moveTask(event) {
-  switch (event.target.parentElement.id) {
-    case 'ulTodo':
-      tasksObj.todo = tasksObj.todo.filter(
-        (a) => a !== event.target.textContent
-      )
+  if (
+    !(
+      (event.key === '1' && event.altKey) ||
+      (event.key === '2' && event.altKey) ||
+      (event.key === '3' && event.altKey)
+    )
+  )
+    return
+  let task = event.target
+  if (task.className !== 'task') return
+  const newTask = createElement('li', [task.innerText], ['task'], {
+    tabindex: '0',
+  })
+  switch (task.parentElement.id) {
+    case 'todo':
+      tasksObj.todo = tasksObj.todo.filter((a) => a !== newTask.textContent)
       break
-    case 'ulProgress':
+    case 'in-progress':
       tasksObj['in-progress'] = tasksObj['in-progress'].filter(
-        (a) => a !== event.target.textContent
+        (a) => a !== newTask.textContent
       )
       break
-    case 'ulDone':
-      tasksObj.done = tasksObj.done.filter(
-        (a) => a !== event.target.textContent
-      )
+    case 'done':
+      tasksObj.done = tasksObj.done.filter((a) => a !== newTask.textContent)
       break
   }
+
   if (event.key === '1' && event.altKey) {
-    moveTaskHelper(1, event.target.textContent)
-    event.target.remove()
+    todo.append(newTask)
+    task.remove()
+    tasksObj.todo.push(newTask.textContent)
   }
-
   if (event.key === '2' && event.altKey) {
-    moveTaskHelper(2, event.target.textContent)
-    event.target.remove()
+    section2.children[2].append(newTask)
+    task.remove()
+    tasksObj['in-progress'].push(newTask.textContent)
   }
-
   if (event.key === '3' && event.altKey) {
-    moveTaskHelper(3, event.target.textContent)
-    event.target.remove()
+    done.append(newTask)
+    task.remove()
+    tasksObj.done.push(newTask.textContent)
   }
-
   localStorage.setItem('tasks', JSON.stringify(tasksObj))
 }
 
-function moveTaskHelper(num, text) {
-  const li = createElement(
-    'li',
-    [text],
-    ['task'],
-    { tabindex: '0' },
-    { keydown: moveTask }
-  )
-  if (num === 1) {
-    tasksObj.todo.push(text)
-    ulTodo.append(li)
+search.addEventListener('input', searchTask)
+
+function searchTask() {
+  let lists = document.getElementsByClassName('task')
+  const length = lists.length
+  for (let i = 0; i < length; i++) {
+    lists[0].remove()
   }
-  if (num === 2) {
-    tasksObj['in-progress'].push(text)
-    ulProgress.append(li)
-  }
-  if (num === 3) {
-    tasksObj.done.push(text)
-    ulDone.append(li)
+  for (const taskType in tasksObj) {
+    //run on arrays in taskObj
+    for (const text of tasksObj[taskType]) {
+      //run on texts in some array from the taskObj
+      if (text.includes(search.value)) {
+        const newTask = createElement('li', [text], ['task'], { tabindex: '0' })
+        document.getElementById(taskType).append(newTask)
+      }
+    }
   }
 }
