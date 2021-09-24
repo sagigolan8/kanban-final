@@ -81,40 +81,27 @@ function changeTask(e) {
     const oldcontent = target.textContent
     newInput.value = target.textContent
     target.innerText = ''
-    let abc = []
+    let listTask = []
     target.append(newInput)
     newInput.focus()
     newInput.addEventListener('blur', () => {
       target.innerHTML = newInput.value
       switch (target.parentElement.id) {
         case 'ulTodo':
-          abc = tasksObj.todo
+          listTask = tasksObj.todo
           break
         case 'ulProgress':
-          abc = tasksObj['in-progress']
+          listTask = tasksObj['in-progress']
           break
         case 'ulDone':
-          abc = tasksObj.done
+          listTask = tasksObj.done
           break
       }
-      abc[abc.findIndex((a) => a === oldcontent)] = newInput.value
+      listTask[listTask.findIndex((a) => a === oldcontent)] = newInput.value
       localStorage.setItem('tasks', JSON.stringify(tasksObj))
     })
   }
 }
-
-//     // target.addEventListener('blur', (e) => {
-//     //   saveNewTask()
-//     // }),
-//     //   true
-
-// .addEventListener('keydown', (e) => {
-//     if (e.altKey && e.key === '1')
-
-//     if (e.altKey && e.key === '2')
-
-//         if (e.altKey && e.key === '3')
-//   })
 
 /**
  * Creates a new DOM element.
@@ -193,11 +180,7 @@ function createExistedTasks() {
   }
 }
 
-// try1.addEventListener('keydown', moveTask)
 function moveTask(event) {
-  //   move the task to the right place
-  //     console.log('works')
-  //   let listType = []
   switch (event.target.parentElement.id) {
     case 'ulTodo':
       tasksObj.todo = tasksObj.todo.filter(
@@ -221,18 +204,15 @@ function moveTask(event) {
   }
 
   if (event.key === '2' && event.altKey) {
-    // console.log('alt 2')
     moveTaskHelper(2, event.target.textContent)
     event.target.remove()
   }
 
   if (event.key === '3' && event.altKey) {
-    // console.log('alt 3')
     moveTaskHelper(3, event.target.textContent)
     event.target.remove()
   }
 
-  //   console.log(tasksObj)
   localStorage.setItem('tasks', JSON.stringify(tasksObj))
 }
 
