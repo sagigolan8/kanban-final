@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap');
+
 #list1 .form-control {
   border-color: transparent;
 }
@@ -9,8 +12,26 @@
   background-color: #fbfbfb;
 }
 
-#todo,
-#in-progress,
-#done {
-  list-style-type: none;
+.task {
+  font-family: 'Sriracha', sans-serif;
+  font-size: 120%;
+  font-weight: bold;
+  border-radius: 7px;
+  background: #fbfbfb23;
+  border: 2px solid #0c7eef;
+  display: flex;
+  margin: 0 -3rem 4px;
+  padding: 0.7rem 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+#add-in-progress-task,
+#add-done-task,
+#add-to-do-task,
+#search,
+#page-title {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  border-radius: 4px;
+  border-color: rgba(169, 169, 169, 0.377);
 }

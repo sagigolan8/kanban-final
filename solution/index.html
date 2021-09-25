@@ -27,7 +27,7 @@
               <div class="card-body py-4 px-4 px-md-5">
                 <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
                   <i class="fas fa-check-square me-1"></i>
-                  <span id="page-title">Task manager</span>
+                  <span id="page-title">Task manager✏️</span>
                 </p>
                 <div class="pb-2">
                   <div class="card">
@@ -47,24 +47,23 @@
                 <div id="sections" class="d-flex flex-row p-3" tabindex="0">
                   <section id="section1" class="p-5">
                     <input
+                      class="inputs"
                       type="text"
                       id="add-to-do-task"
-                      placeholder="type some tasks here"
+                      placeholder="type to do tasks"
                     />
                     <button id="submit-add-to-do" class="mx-2 btn btn-primary">
                       to do
                     </button>
-                    <ul
-                      class="to-do-tasks py-2 list-group list-group-flush"
-                      id="todo"
-                    ></ul>
+                    <ul class="to-do-tasks py-2 list-group" id="todo"></ul>
                   </section>
 
                   <section id="section2" class="p-5">
                     <input
+                      class="inputs"
                       type="text"
                       id="add-in-progress-task"
-                      placeholder="type some tasks here"
+                      placeholder="type tasks in progress"
                     />
                     <button
                       id="submit-add-in-progress"
@@ -73,24 +72,22 @@
                       in progress
                     </button>
                     <ul
-                      class="in-progress-tasks py-2 list-group list-group-flush"
+                      class="in-progress-tasks py-2 list-group"
                       id="in-progress"
                     ></ul>
                   </section>
 
                   <section id="section3" class="p-5">
                     <input
+                      class="inputs"
                       type="text"
                       id="add-done-task"
-                      placeholder="type some tasks here"
+                      placeholder="type done tasks"
                     />
                     <button id="submit-add-done" class="mx-2 btn btn-primary">
                       done
                     </button>
-                    <ul
-                      class="done-tasks py-2 list-group list-group-flush"
-                      id="done"
-                    ></ul>
+                    <ul class="done-tasks py-2 list-group" id="done"></ul>
                   </section>
                 </div>
               </div>
