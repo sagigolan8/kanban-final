@@ -9,9 +9,15 @@
   top: 20%;
 }
 
-#section2 {
+/* #section2 {
   position: absolute;
   left: 50%;
+  top: 20%;
+} */
+
+#section2 {
+  position: absolute;
+  left: 40%;
   top: 20%;
 }
 
