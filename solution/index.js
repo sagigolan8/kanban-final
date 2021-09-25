@@ -9,9 +9,9 @@ if (localStorage.getItem('tasks') === null) {
 }
 
 let tasksObj = JSON.parse(localStorage.getItem('tasks'))
-generateTasks()
+generateTasks() //make sure all the tasks stay in the page after refresh/closing the page
 
-sections.addEventListener('click', addTask)
+sections.addEventListener('click', addTask) //add task with click
 
 function addTask(event) {
   event.preventDefault()
@@ -23,9 +23,10 @@ function addTask(event) {
   const addDone = document.getElementById('add-done-task').value
 
   //create the list for the task
-  let li = createElement('li', [], ['task'], { tabindex: '0' })
+  let li = buildListItem([])
 
   //chooses the case by the button that clicked
+  const ulPogress = document.getElementById('in-progress')
   switch (target.id) {
     case 'submit-add-to-do':
       li.textContent = addToDo
@@ -43,7 +44,7 @@ function addTask(event) {
       if (addProgress === '') alert('add some content please')
       //if input empty an alert pop up
       else {
-        section2.children[2].append(li)
+        ulPogress.append(li)
         document.getElementById('add-in-progress-task').value = ''
         tasksObj['in-progress'].unshift(addProgress)
       } //add the text to the list
@@ -63,27 +64,7 @@ function addTask(event) {
   localStorage.setItem('tasks', JSON.stringify(tasksObj))
 }
 
-search.addEventListener('input', searchTask)
-
-function searchTask() {
-  let lists = document.getElementsByClassName('task')
-  const length = lists.length
-  for (let i = 0; i < length; i++) {
-    lists[0].remove()
-  }
-  for (let taskType in tasksObj) {
-    //run on arrays in taskObj
-    for (let text of tasksObj[taskType]) {
-      //run on texts in some array from the taskObj
-      if (text.includes(search.value)) {
-        let newTask = createElement('li', [text], ['task'], { tabindex: '0' })
-        document.getElementById(taskType).append(newTask)
-      }
-    }
-  }
-}
-
-sections.addEventListener('dblclick', changeTask)
+sections.addEventListener('dblclick', changeTask) //enable to the user to change the content of the task
 
 function changeTask(e) {
   e.preventDefault()
@@ -99,10 +80,6 @@ function changeTask(e) {
     localStorage.setItem('tasks', JSON.stringify(tasksObj))
   })
 }
-// let tasks = document.getElementsByClassName('task')
-// for (const task of tasks) {
-//   task.setAttribute('contentEditable', 'false')
-// }
 
 /**
  * Creates a new DOM element.
@@ -145,19 +122,20 @@ function createElement(
 }
 
 function generateTasks() {
+  const ulPogress = document.getElementById('in-progress')
   //creates tasks to the page, meant for the case that we refresh the page to save all the existed tasks
   for (let task of tasksObj.todo) {
-    let li = createElement('li', [], ['task'], { tabindex: '0' })
+    let li = buildListItem([])
     li.innerHTML = task
     todo.append(li)
   }
   for (let task of tasksObj['in-progress']) {
-    let li = createElement('li', [], ['task'], { tabindex: '0' })
+    let li = buildListItem([])
     li.innerHTML = task
-    section2.children[2].append(li) //pay attention - here we want to get to the ul with id : in-progress children[i], i is is affected by the ul tag placement
+    ulPogress.append(li)
   }
   for (let task of tasksObj.done) {
-    let li = createElement('li', [], ['task'], { tabindex: '0' })
+    let li = buildListItem([])
     li.innerHTML = task
     done.append(li)
   }
@@ -175,9 +153,7 @@ function moveTask(event) {
     return
   let task = event.target
   if (task.className !== 'task') return
-  const newTask = createElement('li', [task.innerText], ['task'], {
-    tabindex: '0',
-  })
+  const newTask = buildListItem([task.innerHTML])
   switch (task.parentElement.id) {
     case 'todo':
       tasksObj.todo = tasksObj.todo.filter((a) => a !== newTask.textContent)
@@ -213,6 +189,25 @@ function moveTask(event) {
 
 search.addEventListener('input', searchTask)
 
+function buildListItem(item) {
+  return createElement(
+    'li',
+    item,
+    [
+      'task',
+      //   'list-group-item',
+      //   'd-flex',
+      //   'align-items-center',
+      //   'ps-0',
+      //   'pe-3',
+      //   'py-1',
+      //   'rounded-0',
+      //   'border-0',
+      //   'bg-transparent',
+    ],
+    { tabindex: '0' }
+  )
+}
 function searchTask() {
   let lists = document.getElementsByClassName('task')
   const length = lists.length
@@ -224,36 +219,9 @@ function searchTask() {
     for (let text of tasksObj[taskType]) {
       //run on texts in some array from the taskObj
       if (text.includes(search.value)) {
-        let newTask = createElement('li', [text], ['task'], { tabindex: '0' })
+        let newTask = buildListItem([text])
         document.getElementById(taskType).append(newTask)
       }
     }
   }
 }
-
-// function searchTask() {
-//   let newTask
-//   let lists = document.getElementsByClassName('task')
-//   const length = lists.length
-//   for (let i = 0; i < length; i++) {
-//     lists[0].remove()
-//   }
-//   for (let text of tasksObj.todo) {
-//     if (text.includes(search.value)) {
-//       newTask = createElement('li', [text], ['task'], { tabindex: '0' })
-//       todo.append(newTask)
-//     }
-//   }
-//   for (let text of tasksObj['in-progress']) {
-//     if (text.includes(search.value)) {
-//       newTask = createElement('li', [text], ['task'], { tabindex: '0' })
-//       section2.children[2].append(newTask)
-//     }
-//   }
-//   for (let text of tasksObj.done) {
-//     if (text.includes(search.value)) {
-//       newTask = createElement('li', [text], ['task'], { tabindex: '0' })
-//       done.append(newTask)
-//     }
-//   }
-// }

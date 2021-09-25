@@ -6,11 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./index.js" defer></script>
     <link rel="stylesheet" href="./styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
     <title>Tasks manager</title>
   </head>
   <body>
     <h1 id="page-title">Task manager</h1>
-    <input type="text" id="search" placeholder="search tasks here" />
+    <div class="pb-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex flex-row align-items-center">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="search"
+              autocomplete="off"
+              placeholder="search tasks here"
+            />
+            <div class="px-4">
+              <button type="button" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="sections" tabindex="0">
       <section id="section1">
         <input

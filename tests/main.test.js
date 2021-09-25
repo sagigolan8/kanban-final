@@ -113,7 +113,7 @@ let wasInPut = false
 
 describe(projectName, () => {
   beforeAll(async () => {
-    browser = await puppeteer.launch({ headless: false, slowMo: 67 }) //change to false if you want to view the page
+    browser = await puppeteer.launch({ headless: false, slowMo: 10 }) //change to false if you want to view the page
     page = await browser.newPage()
     page.setRequestInterception(true)
     page.on('request', async (req) => {
@@ -224,9 +224,9 @@ describe(projectName, () => {
     await page.$eval('.task', (e) => e.blur())
     const newText = await getTaskText()
     const localStorageData = await getTasksFromLocalStorage()
-    expect(localStorageData[tasksTypes[1]]).toContain(newText) //check if the in-progress array contain the newtext - second task input
-    expect(newText).toBe(mockTasksText) //expect new text to be === "second task input"
-    expect(newText).not.toBe(prevText) // expect new text  not to be ===  previous text
+    expect(localStorageData[tasksTypes[1]]).toContain(newText)
+    expect(newText).toBe(mockTasksText)
+    expect(newText).not.toBe(prevText)
   })
 
   test('User should be able to search between tasks', async () => {
