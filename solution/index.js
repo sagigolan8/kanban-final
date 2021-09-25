@@ -100,20 +100,20 @@ function createElement(
   attributes = {},
   eventListeners = {}
 ) {
-  let element = document.createElement(tagName)
+  const element = document.createElement(tagName)
 
-  for (const child of children) {
+  for (let child of children) {
     element.append(child)
   }
 
-  for (const cls of classes) {
+  for (let cls of classes) {
     element.classList.add(cls)
   }
 
-  for (const attr in attributes) {
+  for (let attr in attributes) {
     element.setAttribute(attr, attributes[attr])
   }
-  for (const listener in eventListeners) {
+  for (let listener in eventListeners) {
     const functionArray = eventListeners[listener]
     element.addEventListener(listener, functionArray)
   }
@@ -195,6 +195,7 @@ function buildListItem(item) {
     item,
     [
       'task',
+      // 'list-group-item',
       //   'list-group-item',
       //   'd-flex',
       //   'align-items-center',
@@ -208,6 +209,17 @@ function buildListItem(item) {
     { tabindex: '0' }
   )
 }
+
+// function buildListItem(item) {
+//   return createElement(
+//     createElement('li', item, [], {
+//       tabindex: '0',
+//       class:
+//         'task list-group-item list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent',
+//     })
+//   )
+// }
+
 function searchTask() {
   let lists = document.getElementsByClassName('task')
   const length = lists.length
