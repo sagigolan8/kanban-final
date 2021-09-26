@@ -4,7 +4,7 @@
 
 Welcome to your pre-course final project. You are going to build a task-management application.
 
-![Example](./example.png)
+![Example](images/‏‏screenshot.png)
 
 ## Instructions
 
