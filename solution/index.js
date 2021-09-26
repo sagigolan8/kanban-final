@@ -10,7 +10,7 @@ if (localStorage.getItem('tasks') === null) {
 }
 
 //Here we copied the 'tasks' object into "taskObj" object so that we can change "taskObj", when we done, update it into localStorage.
-const tasksObj = JSON.parse(localStorage.getItem('tasks'))
+let tasksObj = JSON.parse(localStorage.getItem('tasks'))
 
 //Make sure all the tasks stay in the page after refresh/closing the page
 generateTasks()
@@ -304,4 +304,49 @@ function drag(e) {
 
 function allowDrop(e) {
   e.preventDefault()
+}
+
+const urlApi = 'https://json-bins.herokuapp.com/bin/614b27c34021ac0e6c080cf8'
+const loadingAnimation = document.querySelector('.loader')
+
+async function save() {
+  loadingAnimation.style.visibility = 'visible'
+  const putProp = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ tasks: tasksObj }),
+  }
+  const response = await fetch(urlApi, putProp)
+  if (response.status > 400 && response.status !== 418) {
+    console.log('Saving The Data Failed! \n Try Again')
+  }
+
+  loadingAnimation.style.visibility = 'hidden'
+}
+
+async function load() {
+  loadingAnimation.style.visibility = 'visible'
+  const getProp = {
+    method: 'Get',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  }
+  let getAns = await fetch(urlApi, getProp)
+  const data = await getAns.json()
+  console.log(data.tasks)
+  localStorage.setItem('tasks', JSON.stringify(data.tasks))
+  tasksObj = data.tasks
+  loadingAnimation.style.visibility = 'hidden'
+  let tasks = document.getElementsByClassName('task')
+  const length = tasks.length
+  for (let i = 0; i < length; i++) {
+    tasks[0].remove()
+  }
+  generateTasks()
 }
