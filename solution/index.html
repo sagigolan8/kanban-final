@@ -39,6 +39,7 @@
                           id="search"
                           autocomplete="off"
                           placeholder="search tasks here"
+                          ondrop="return false"
                         />
                       </div>
                     </div>
@@ -51,9 +52,10 @@
                       type="text"
                       id="add-to-do-task"
                       placeholder="type to do tasks"
+                      ondrop="return false"
                     />
                     <button id="submit-add-to-do" class="mx-2 btn btn-primary">
-                      to do
+                      Add task
                     </button>
                     <ul class="to-do-tasks py-2 list-group" id="todo"></ul>
                   </section>
@@ -64,12 +66,13 @@
                       type="text"
                       id="add-in-progress-task"
                       placeholder="type tasks in progress"
+                      ondrop="return false"
                     />
                     <button
                       id="submit-add-in-progress"
                       class="mx-2 btn btn-primary"
                     >
-                      in progress
+                      Add task
                     </button>
                     <ul
                       class="in-progress-tasks py-2 list-group"
@@ -83,9 +86,10 @@
                       type="text"
                       id="add-done-task"
                       placeholder="type done tasks"
+                      ondrop="return false"
                     />
                     <button id="submit-add-done" class="mx-2 btn btn-primary">
-                      done
+                      Add task
                     </button>
                     <ul class="done-tasks py-2 list-group" id="done"></ul>
                   </section>

@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap');
 
+body {
+  background-image: url('https://influencermarketinghub.com/wp-content/uploads/2019/11/shutterstock_1038395047-2048x1152.jpg)');
+  background-size: 100%;
+}
+
 #list1 .form-control {
   border-color: transparent;
 }
@@ -12,11 +17,17 @@
   background-color: #fbfbfb;
 }
 
+ul {
+  min-height: 100px;
+}
+
 .task {
+  /* margin: 2px; */
   font-family: 'Sriracha', sans-serif;
   font-size: 120%;
   font-weight: bold;
   border-radius: 7px;
+  /* width: 120%; */
   background: #fbfbfb23;
   border: 2px solid #0c7eef;
   display: flex;
