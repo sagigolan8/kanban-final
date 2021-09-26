@@ -307,13 +307,12 @@ function allowDrop(e) {
 }
 
 const urlApi = 'https://json-bins.herokuapp.com/bin/614b27c34021ac0e6c080cf8'
-const loadingAnimation = document.querySelector('.loader')
+const loader = createElement('div', [], ['loader'])
 
 async function save() {
-  loadingAnimation.style.visibility = 'visible'
+  document.getElementById('wrapAll').append(loader)
   const putProp = {
     method: 'PUT',
-    mode: 'cors',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -324,12 +323,11 @@ async function save() {
   if (response.status > 400 && response.status !== 418) {
     console.log('Saving The Data Failed! \n Try Again')
   }
-
-  loadingAnimation.style.visibility = 'hidden'
+  document.getElementById('wrapAll').remove(loader)
 }
 
 async function load() {
-  loadingAnimation.style.visibility = 'visible'
+  document.getElementById('wrapAll').append(loader)
   const getProp = {
     method: 'Get',
     headers: {
@@ -342,7 +340,7 @@ async function load() {
   console.log(data.tasks)
   localStorage.setItem('tasks', JSON.stringify(data.tasks))
   tasksObj = data.tasks
-  loadingAnimation.style.visibility = 'hidden'
+  document.getElementById('wrapAll').remove(loader)
   let tasks = document.getElementsByClassName('task')
   const length = tasks.length
   for (let i = 0; i < length; i++) {
