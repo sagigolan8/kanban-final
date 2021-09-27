@@ -4,7 +4,7 @@
 
 We are going to build a task-management application.
 
-![Webpage](images\webpage.png)
+![Webpage](images/webpage.png)
 
 ## Welcome to task manager !
 
@@ -25,11 +25,11 @@ the features included in this website are:
 
 ### before edit task
 
-![EditTask](images\beforeEditTask.png)
+![EditTask](images/beforeEditTask.png)
 
 ### after edit task
 
-![EditTask](images\afterEditTask.png)
+![EditTask](images/afterEditTask.png)
 
 3. you can move tasks from one list to another by clicking the wanted task and then pressing "alt+ number"
    the number should be 1,2 or 3 depending on the list you want to be the destination.
@@ -40,16 +40,16 @@ the features included in this website are:
 
 ### after move task
 
-![Movetask](images\afterMoveTask.png)
+![Movetask](images/afterMoveTask.png)
 
 4. a global search bar that shows you only the tasks that includes the characters written inside the input.
 
 ### before using the search bar
 
-![](images/beforeUsingSearchBar.png)
+![SearchBar](images/beforeUsingSearchBar.png)
 
 ### after using the search bar
 
-![](images\afterUsingSearchBar.png)
+![SearchBar](images/afterUsingSearchBar.png)
 
 <!-- 5. a current clean looking design that makes the site readable for long term usage. using cool tones to give a feeling of relief. in addition, while hovering over the lists you get a shadow affect. -->
