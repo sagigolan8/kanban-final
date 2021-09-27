@@ -86,4 +86,6 @@ In addition, while the data is processed an loader indicator shows up.
 
 ![SaveOrLoadPlusLoader](images/apiAfterSave.png)
 
+### link to GitHub pages - https://sagigolan8.github.io/kanban-final/
+
 #### Passed all tests
