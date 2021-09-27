@@ -62,6 +62,8 @@ the number should be 1,2 or 3 depending on the list you want to be the destinati
 
 ## Bonuses
 
+### I used the "Bootstrap" library for couple of things for the CSS
+
 ◼ The user allowed to drag tasks and drop them in another lists.
 
 ### Before using the search bar
@@ -72,4 +74,13 @@ the number should be 1,2 or 3 depending on the list you want to be the destinati
 
 ![DragN'Drop](images/afterDragAndDrop.png)
 
-◼ The user allowed to drag tasks and drop them in another lists.
+◼ The user is able to save and load the data in this api - "https://json-bins.herokuapp.com/bin/614b27c34021ac0e6c080cf8".
+In addition, while the data is processed an loader indicator shows up.
+
+### While save/load the data
+
+![SaveOrLoadPlusLoader](images/saveOrLoadDataPlusLoader.png)
+
+### Api after save the data
+
+![SaveOrLoadPlusLoader](images/apiAfterSave.png)
