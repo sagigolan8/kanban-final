@@ -154,7 +154,6 @@ function moveTask(event) {
   //Then we choose the right section(to-do/in-progress/done) to place the task.
   switch (target.parentElement.id) {
     case 'todo':
-      //Now we filters out
       tasksObj.todo = tasksObj.todo.filter((a) => a !== newTask.textContent)
       break
     case 'in-progress':

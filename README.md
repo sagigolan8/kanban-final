@@ -85,3 +85,5 @@ In addition, while the data is processed an loader indicator shows up.
 ### Api after save the data
 
 ![SaveOrLoadPlusLoader](images/apiAfterSave.png)
+
+#### Passed all tests
