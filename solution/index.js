@@ -305,12 +305,58 @@ function allowDrop(e) {
   e.preventDefault()
 }
 
+// const urlApi = 'https://json-bins.herokuapp.com/bin/614b27c34021ac0e6c080cf8'
+// const loader = createElement('div', [], ['loader'])
+
+// async function save() {
+//   document.getElementById('wrapAll').append(loader)
+//   const putProp = {
+//     method: 'PUT',
+//     headers: {
+//       Accept: 'application/json',
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ tasks: tasksObj }),
+//   }
+//   const response = await fetch(urlApi, putProp)
+//   if (response.status > 400 && response.status !== 418) {
+//     console.log('Saving The Data Failed! \n Try Again')
+//   }
+//   document.getElementById('wrapAll').remove(loader)
+// }
+
+// async function load() {
+//   document.getElementById('wrapAll').append(loader)
+//   const getProp = {
+//     method: 'Get',
+//     headers: {
+//       Accept: 'application/json',
+//       'Content-Type': 'application/json',
+//     },
+//   }
+//   let getAns = await fetch(urlApi, getProp)
+//   const data = await getAns.json()
+//   console.log(data.tasks)
+//   localStorage.setItem('tasks', JSON.stringify(data.tasks))
+//   tasksObj = data.tasks
+//   document.getElementById('wrapAll').remove(loader)
+//   let tasks = document.getElementsByClassName('task')
+//   const length = tasks.length
+//   for (let i = 0; i < length; i++) {
+//     tasks[0].remove()
+//   }
+//   generateTasks()
+// }
+
 const urlApi = 'https://json-bins.herokuapp.com/bin/614b27c34021ac0e6c080cf8'
-const loader = createElement('div', [], ['loader'])
+// const loader = createElement('div', [], ['loader'])
 
 async function save() {
+  let loader = createElement('div', [], ['loader'])
+  // delete tasksObj['[object HTMLUListElement]']
+  // localStorage.setItem('tasks', JSON.stringify(tasksObj))
   document.getElementById('wrapAll').append(loader)
-  const putProp = {
+  const putProperty = {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
@@ -318,25 +364,26 @@ async function save() {
     },
     body: JSON.stringify({ tasks: tasksObj }),
   }
-  const response = await fetch(urlApi, putProp)
+  const response = await fetch(urlApi, putProperty)
   if (response.status > 400 && response.status !== 418) {
     console.log('Saving The Data Failed! \n Try Again')
   }
   document.getElementById('wrapAll').remove(loader)
+  location.reload()
 }
 
 async function load() {
+  let loader = createElement('div', [], ['loader'])
   document.getElementById('wrapAll').append(loader)
-  const getProp = {
+  const getProperty = {
     method: 'Get',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
   }
-  let getAns = await fetch(urlApi, getProp)
-  const data = await getAns.json()
-  console.log(data.tasks)
+  let response = await fetch(urlApi, getProperty)
+  const data = await response.json()
   localStorage.setItem('tasks', JSON.stringify(data.tasks))
   tasksObj = data.tasks
   document.getElementById('wrapAll').remove(loader)
@@ -345,5 +392,18 @@ async function load() {
   for (let i = 0; i < length; i++) {
     tasks[0].remove()
   }
+  location.reload()
   generateTasks()
+}
+
+clear.onclick = async function clear() {
+  tasksObj = JSON.parse(localStorage.getItem('tasks'))
+  tasksObj.todo = []
+  tasksObj['in-progress'] = []
+  tasksObj.done = []
+  localStorage.setItem('tasks', JSON.stringify(tasksObj))
+  if (confirm('Do you sure you want to delete all the tasks permanently?')) {
+    await save()
+  }
+  location.reload()
 }
