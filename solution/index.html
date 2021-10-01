@@ -1,13 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./index.js" defer></script>
     <link rel="stylesheet" href="./styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
     <title>Tasks manager</title>
-</head>
-<body>
-</body>
+  </head>
+  <body>
+    <section class="vh-100">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col">
+            <div
+              class="card"
+              id="list1"
+              style="border-radius: 0.75rem; background-color: #eff1f2"
+            >
+              <div class="card-body py-4 px-4 px-md-5">
+                <a style="font-size: 30px;" href="https://json-bins.herokuapp.com/bin/614b27c34021ac0e6c080cf8" target="_blank" class="link-primary ">Api link</a>
+                <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
+                  <i class="fas fa-check-square me-1"></i>
+                  <span id="page-title">Task manager✏️</span>
+                </p>
+                <div class="pb-2">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex flex-row align-items-center">
+                        <div id="wrapAll"></div>
+                        <input
+                          type="text"
+                          class="form-control form-control-lg"
+                          id="search"
+                          autocomplete="off"
+                          placeholder="search tasks here"
+                          ondrop="return false"
+                        />
+                        <button
+                          id="clear"
+                          class="mx-2 btn btn-primary"
+                        >
+                        clear
+                        <button
+                          id="load-btn"
+                          onclick="load()"
+                          class="mx-2 btn btn-primary"
+                        >
+                          Load
+                        </button>
+                        <button
+                          id="save-btn"
+                          onclick="save()"
+                          class="mx-2 btn btn-primary"
+                        >
+                          Save
+                        </button>
+                        <!-- <div class="loader"></div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="sections" class="d-flex flex-row p-3" tabindex="0">
+                  <section id="section1" class="p-5">
+                    <input
+                      class="inputs"
+                      type="text"
+                      id="add-to-do-task"
+                      placeholder="type to do tasks"
+                      ondrop="return false"
+                    />
+                    <button id="submit-add-to-do" class="mx-2 btn btn-primary">
+                      Add task
+                    </button>
+                    <ul class="to-do-tasks py-2 list-group" id="todo"></ul>
+                  </section>
+
+                  <section id="section2" class="p-5">
+                    <input
+                      class="inputs"
+                      type="text"
+                      id="add-in-progress-task"
+                      placeholder="type tasks in progress"
+                      ondrop="return false"
+                    />
+                    <button
+                      id="submit-add-in-progress"
+                      class="mx-2 btn btn-primary"
+                    >
+                      Add task
+                    </button>
+                    <ul
+                      class="in-progress-tasks py-2 list-group"
+                      id="in-progress"
+                    ></ul>
+                  </section>
+
+                  <section id="section3" class="p-5">
+                    <input
+                      class="inputs"
+                      type="text"
+                      id="add-done-task"
+                      placeholder="type done tasks"
+                      ondrop="return false"
+                    />
+                    <button id="submit-add-done" class="mx-2 btn btn-primary">
+                      Add task
+                    </button>
+                    <ul class="done-tasks py-2 list-group" id="done"></ul>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

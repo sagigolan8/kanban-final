@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap');
+
+body {
+  background-image: url('https://influencermarketinghub.com/wp-content/uploads/2019/11/shutterstock_1038395047-2048x1152.jpg)');
+  background-size: 100%;
+}
+
+#list1 .form-control {
+  border-color: transparent;
+}
+#list1 .form-control:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+#list1 .select-input.form-control[readonly]:not([disabled]) {
+  background-color: #fbfbfb;
+}
+
+ul {
+  min-height: 200px;
+}
+
+.task {
+  /* margin: 2px; */
+  font-family: 'Sriracha', sans-serif;
+  font-size: 120%;
+  font-weight: bold;
+  border-radius: 7px;
+  /* width: 120%; */
+  background: #fbfbfb23;
+  border: 2px solid #0c7eef;
+  display: flex;
+  margin: 0 -3rem 4px;
+  padding: 0.7rem 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+#add-in-progress-task,
+#add-done-task,
+#add-to-do-task,
+#search,
+#page-title {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  border-radius: 4px;
+  border-color: rgba(169, 169, 169, 0.377);
+}
+
+.loader {
+  content: '';
+  box-sizing: border-box;
+  box-shadow: 0px 0px 30px 0px;
+  position: absolute;
+  top: 46%;
+  left: 51%;
+  width: 150px;
+  height: 150px;
+  margin-top: -10px;
+  margin-left: -38px;
+  border-radius: 50%;
+  border: 10px dashed rgb(223, 218, 218);
+  border-top-color: #000;
+  animation: spinner 0.6s linear infinite;
+  /* visibility: hidden; */
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
