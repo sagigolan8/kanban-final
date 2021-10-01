@@ -66,11 +66,11 @@ the number should be 1,2 or 3 depending on the list you want to be the destinati
 
 ◼ The user allowed to drag tasks and drop them in another lists.
 
-### Before using the search bar
+### Before using the drag and drop method
 
 ![DragN'Drop](images/beforeDragAndDrop.png)
 
-### After using the search bar
+### After using the drag and drop method
 
 ![DragN'Drop](images/afterDragAndDrop.png)
 
