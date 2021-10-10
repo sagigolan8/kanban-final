@@ -1,3 +1,13 @@
+function updateStorage(tasks) {
+  //Function that update the tasks in the local storage.
+  localStorage.setItem('tasks', JSON.stringify(tasks))
+}
+
+function getFromStorage() {
+  //Function that get the tasks from the local storage.
+  return JSON.parse(localStorage.getItem('tasks'))
+}
+
 // First of all we have to check if there is any 'tasks' key in our the local storage if not, create one.
 if (localStorage.getItem('tasks') === null) {
   let tasks = {
@@ -6,11 +16,11 @@ if (localStorage.getItem('tasks') === null) {
     done: [],
   }
   //Update it into the localStorage
-  localStorage.setItem('tasks', JSON.stringify(tasks))
+  updateStorage(tasks)
 }
 
 //Here we copied the 'tasks' object into "taskObj" object so that we can change "taskObj", when we done, update it into localStorage.
-let tasksObj = JSON.parse(localStorage.getItem('tasks'))
+let tasksObj = getFromStorage()
 
 //Make sure all the tasks stay in the page after refresh/closing the page
 generateTasks()
@@ -21,12 +31,18 @@ generateTasks()
 //Listening to the 'click' event in order to add a task to the to-do/in-progress/done sections.
 sections.addEventListener('click', addTask)
 
-//Function that handels the case of clicking in the field of all sections.
-//Add a list(that represent a task) to the correct unordinary lists(represent the three sections - to-do/in-progress/done).
-function addTask(event) {
-  event.preventDefault()
-  const target = event.target
+function addValueToList(ul, li, newValue, inputId) {
+  //The function add the new task to the correct list and updates the taskObj
+  li.textContent = newValue
+  if (newValue === '') alert('add some content please')
+  else {
+    ul.append(li)
+    document.getElementById(inputId).value = ''
+    tasksObj[ul.id].unshift(newValue)
+  }
+}
 
+function chooseCorrectButtonById(buttonId) {
   //Gets the texts from the user
   const addToDo = document.getElementById('add-to-do-task').value
   const addProgress = document.getElementById('add-in-progress-task').value
@@ -37,41 +53,26 @@ function addTask(event) {
 
   //Chooses the case according to the clicked button.
   const ulPogress = document.getElementById('in-progress')
-  switch (target.id) {
+  switch (buttonId) {
     case 'submit-add-to-do':
-      li.textContent = addToDo
-
-      //If the user trying to add an empty task an alert messege pops up.
-      if (addToDo === '') alert('add some content please')
-      //Add the text to the list, and add the task to the taskObj in order to update the localStorage.
-      else {
-        todo.append(li)
-        document.getElementById('add-to-do-task').value = ''
-        tasksObj.todo.unshift(addToDo)
-      }
+      addValueToList(todo, li, addToDo, 'add-to-do-task')
       break
     //The same progress(as the case above) is executed in the other cases...
     case 'submit-add-in-progress':
-      li.textContent = addProgress
-      if (addProgress === '') alert('add some content please')
-      else {
-        ulPogress.append(li)
-        document.getElementById('add-in-progress-task').value = ''
-        tasksObj['in-progress'].unshift(addProgress)
-      }
+      addValueToList(ulPogress, li, addProgress, 'add-in-progress-task')
       break
     case 'submit-add-done':
-      li.textContent = addDone
-      if (addDone === '') alert('add some content please')
-      else {
-        done.append(li)
-        document.getElementById('add-done-task').value = ''
-        tasksObj.done.unshift(addDone)
-      }
+      addValueToList(done, li, addDone, 'add-done-task')
       break
   }
+}
+
+//Function that handels the case of clicking in the field of all sections.
+function addTask(event) {
+  event.preventDefault()
+  chooseCorrectButtonById(event.target.id)
   //Updates the localStorage
-  localStorage.setItem('tasks', JSON.stringify(tasksObj))
+  updateStorage(tasksObj)
 }
 
 //____________________________________________________Second interaction assignment_____________________________________________________
@@ -81,11 +82,9 @@ function addTask(event) {
 sections.addEventListener('dblclick', editTask)
 
 //Function that handels the case of double clicking in the field of all sections.
-//Gives an options for the user to edit some task by double click on it, when the task element loses focus the changes will be saved.
 function editTask(e) {
   e.preventDefault()
 
-  //In this case, we will refer to the case that the target is a list
   const target = e.target
 
   //Now saveKey contains some array from the our copied object taskObj - todo[]/in-progress[]/done[]
@@ -103,18 +102,15 @@ function editTask(e) {
     //Here we save the new task in order to save it in the localstorage
     let newTask = target.textContent
 
-    //This if statement take care of any case the user double click on a task, then removes it's content,and eventually loses focus.
-    //So the old content came up and the task wouldn't stay empty.
     if (newTask === '') target.textContent = oldTask
 
     //Here we need to update the new task the user just wrote
     newTask = target.textContent
 
-    //Here we removes the old task and replace it with the new task, the findIndex method make sure we replace the correct task
     saveKey[saveKey.findIndex((a) => a === oldTask)] = newTask
 
     //Updates the localStorage
-    localStorage.setItem('tasks', JSON.stringify(tasksObj))
+    updateStorage(tasksObj)
     target.setAttribute('contentEditable', 'false')
   })
 }
@@ -125,34 +121,8 @@ function editTask(e) {
 //Listening to the 'keydown' event in order to more some task section to another section.
 sections.addEventListener('keydown', moveTask)
 
-//Function that handels the case of tap some character on the keyboard, in the field of all sections(to-do/in-progress/done).
-//Move the task to the appropriate list (1: todo, 2: in-progress, 3: done), after click on the wanted task.
-function moveTask(event) {
-  //In case of the user tapping some characters on the keyboard that it's not include - alt+1/2/3 will immediately get out from the function.
-  if (
-    !(
-      (event.key === '1' && event.altKey) ||
-      (event.key === '2' && event.altKey) ||
-      (event.key === '3' && event.altKey)
-    )
-  )
-    return
-
-  //If we got here it means the user tapped alt+1/2/3.
-
-  ////In this case, we will refer to the case that the target is a list.
-  const target = event.target
-
-  //This if statement take care of any case the user clicked on something that isn't a task, this case will get out of the function.
-  if (target.className !== 'task') return
-
-  //If we got here it means the user clicked on some task and not something else.
-
-  //Here we create a new task with the content of the cilcked task.
-  const newTask = buildListItem([target.innerHTML])
-
-  //Then we choose the right section(to-do/in-progress/done) to place the task.
-  switch (target.parentElement.id) {
+function removeContentFromOldTask(ulId, newTask) {
+  switch (ulId) {
     case 'todo':
       tasksObj.todo = tasksObj.todo.filter((a) => a !== newTask.textContent)
       break
@@ -165,26 +135,49 @@ function moveTask(event) {
       tasksObj.done = tasksObj.done.filter((a) => a !== newTask.textContent)
       break
   }
+}
 
+function addTaskToListAndSaveIt(event, newTask) {
   const ulPogress = document.getElementById('in-progress')
   if (event.key === '1' && event.altKey) {
     todo.prepend(newTask)
-    target.remove()
     tasksObj.todo.unshift(newTask.textContent)
+    event.target.remove()
   }
   if (event.key === '2' && event.altKey) {
     ulPogress.prepend(newTask)
-    target.remove()
     tasksObj['in-progress'].unshift(newTask.textContent)
+    event.target.remove()
   }
   if (event.key === '3' && event.altKey) {
     done.prepend(newTask)
-    target.remove()
     tasksObj.done.unshift(newTask.textContent)
+    event.target.remove()
   }
 
   //Updates the localStorage
-  localStorage.setItem('tasks', JSON.stringify(tasksObj))
+  updateStorage(tasksObj)
+}
+
+// function addTaskToNewListAndRemoveFromOldList(ul,event,newTask){
+// todo.prepend(newTask)
+// tasksObj.todo.unshift(newTask.textContent)
+// event.target.remove()
+// }
+
+//Function that handels the case of tap some character on the keyboard, in the field of all sections(to-do/in-progress/done).
+function moveTask(event) {
+  //In case of the user tapping some characters on the keyboard that it's not include - alt+1/2/3 will immediately get out from the function.
+  if (!(event.altKey && [1, 2, 3].includes(Number(event.key)))) return
+
+  //This if statement take care of any case the user clicked on something that isn't a task, this case will get out of the function.
+  if (event.target.className !== 'task') return
+
+  //If we got here it means the user clicked on some task and not something else.
+
+  const newTask = buildListItem([event.target.innerHTML])
+  removeContentFromOldTask(event.target.parentElement.id, newTask)
+  addTaskToListAndSaveIt(event, newTask)
 }
 
 function buildListItem(item) {
@@ -294,7 +287,7 @@ function drop(e) {
     removeTask.parentNode.id
   ].filter((a) => a !== taskText)
   removeTask.remove()
-  localStorage.setItem('tasks', JSON.stringify(tasksObj))
+  updateStorage(tasksObj)
 }
 
 function drag(e) {
@@ -355,11 +348,11 @@ async function load() {
 
 clear.onclick = async function clear() {
   //clear all the data from the wepage and the localstorage
-  tasksObj = JSON.parse(localStorage.getItem('tasks'))
+  tasksObj = getFromStorage()
   tasksObj.todo = []
   tasksObj['in-progress'] = []
   tasksObj.done = []
-  localStorage.setItem('tasks', JSON.stringify(tasksObj))
+  updateStorage(tasksObj)
   if (confirm('Do you want to delete all the tasks permanently?')) {
     //if the user confirm delete all data from the api too
     await save()
